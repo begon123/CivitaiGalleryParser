@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civitai Gallery Parser - Overlay Showcase</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="overlay.css">
+    <style>
+        /* Showcase Specific Overrides */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px;
+            background-color: #111821;
+            /* Same as style.css */
+            overflow: hidden;
+        }
+
+        #cp-root {
+            position: relative !important;
+            top: auto !important;
+            right: auto !important;
+            margin: 0;
+            width: 550px;
+            transform: none !important;
+            animation: cp-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        }
+
+        /* Prevent background elements from being centered by flex */
+        .scan-overlay,
+        .scan-beam {
+            position: fixed;
+        }
+    </style>
+</head>
+
+<body class="showcase">
+    <!-- Background Effects from style.css -->
+    <div class="scan-overlay"></div>
+    <div class="scan-beam"></div>
+
+    <!-- Overlay Manual Mockup -->
+    <div id="cp-root" class="cp-root scanning">
+        <div class="cp-header">
+            <div class="cp-header-left">
+                <div id="cp-badge" class="cp-badge ok active">
+                    <div class="cp-dot"></div>
+                    <span id="cp-badge-text" class="cp-badge-text">Logged In</span>
+                </div>
+            </div>
+
+            <h2 class="cp-title">Gallery Parser</h2>
+
+            <div class="cp-header-right">
+                <div class="cp-lang-wrapper">
+                    <input type="radio" name="cp-l" id="cp-l-en" checked>
+                    <input type="radio" name="cp-l" id="cp-l-ru">
+                    <div class="slider"></div>
+                    <label for="cp-l-en">
+                        <span class="flag-icon">
+                            <svg viewBox="0 0 60 40" width="100%" height="100%" preserveAspectRatio="none">
+                                <rect width="60" height="40" fill="#fff" />
+                                <rect width="60" height="7" y="0" fill="#B22234" />
+                                <rect width="60" height="7" y="11" fill="#B22234" />
+                                <rect width="60" height="7" y="22" fill="#B22234" />
+                                <rect width="60" height="7" y="33" fill="#B22234" />
+                                <rect width="26" height="22" fill="#3C3B6E" />
+                                <g fill="#fff">
+                                    <circle cx="5" cy="4" r="1.5" />
+                                    <circle cx="13" cy="4" r="1.5" />
+                                    <circle cx="21" cy="4" r="1.5" />
+                                    <circle cx="9" cy="8" r="1.5" />
+                                    <circle cx="17" cy="8" r="1.5" />
+                                    <circle cx="5" cy="12" r="1.5" />
+                                    <circle cx="13" cy="12" r="1.5" />
+                                    <circle cx="21" cy="12" r="1.5" />
+                                    <circle cx="9" cy="16" r="1.5" />
+                                    <circle cx="17" cy="16" r="1.5" />
+                                </g>
+                            </svg>
+                        </span> EN
+                    </label>
+                    <label for="cp-l-ru">
+                        <span class="flag-icon">
+                            <svg viewBox="0 0 60 40" width="100%" height="100%" preserveAspectRatio="none">
+                                <rect width="60" height="13.33" y="0" fill="#FFFFFF" />
+                                <rect width="60" height="13.34" y="13.33" fill="#0039A6" />
+                                <rect width="60" height="13.33" y="26.67" fill="#D52B1E" />
+                            </svg>
+                        </span> RU
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="cp-stats">
+            <div class="cp-line"></div>
+            <span id="cp-val" class="cp-num">128</span>
+            <span class="cp-desc">Found Items</span>
+        </div>
+
+        <div class="cp-row">
+            <div class="cp-col">
+                <div class="cp-input-wrap">
+                    <input type="text" id="cp-pages" value="10" disabled>
+                    <div class="cp-input-ctrls">
+                        <button class="cp-ctrl-btn" disabled>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <path d="M18 15l-6-6-6 6" />
+                            </svg>
+                        </button>
+                        <button class="cp-ctrl-btn" disabled>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <path d="M6 9l6 6 6-6" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <button id="cp-main-btn" disabled>
+                <svg class="cp-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M23 4v6h-6" />
+                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                </svg>
+                <span>Scanning...</span>
+            </button>
+        </div>
+
+        <div class="cp-warn">⚠️ User may need to scroll manually if no items are found.</div>
+
+        <div class="cp-term">
+            <div class="cp-t-head"><span>Console</span><span id="cp-per">72%</span></div>
+            <div id="cp-logs" class="cp-logs">
+                <div class="cp-log"><span class="cp-mark">[20:06:12]</span><span>Initializing environment...</span></div>
+                <div class="cp-log"><span class="cp-mark">[20:06:13]</span><span>Scanning gallery images...</span></div>
+                <div class="cp-log"><span class="cp-mark">[20:06:15]</span><span>Found 45 new items on page 3</span></div>
+                <div class="cp-log"><span class="cp-mark">[20:06:18]</span><span>Extracting metadata...</span></div>
+                <div class="cp-log"><span class="cp-mark">[20:06:20]</span><span>Found 83 new items on page 4</span></div>
+            </div>
+        </div>
+
+        <div class="cp-bottom">
+            <button id="cp-stop">
+                <svg class="cp-stop-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="6" y="6" width="12" height="12" rx="2" />
+                </svg>
+                <span>Stop and Save</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Script to simulate terminal scroll to bottom -->
+    <script>
+        window.onload = () => {
+            const logs = document.getElementById('cp-logs');
+            logs.scrollTop = logs.scrollHeight;
+        };
+    </script>
+</body>
+
+</html>
