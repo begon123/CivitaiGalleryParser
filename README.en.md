@@ -1,6 +1,6 @@
 # Civitai Gallery Parser Extension
 
-[English](README.md) · [Русский](README.ru.md)
+[English](README.en.md) · [Русский](README.md)
 
 ![Extension Interface (Unified Overlay)](Screenshots/OverlayScreen.png)
 
