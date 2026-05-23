@@ -2,53 +2,52 @@
 
 [English](README.md) · [Русский](README.ru.md)
 
-![Extension Interface (Unified Overlay)](Screenshots/OverlayScreen.png)
+![Интерфейс расширения (Unified Overlay)](Screenshots/OverlayScreen.png)
 
-A Chrome extension for parsing and collecting data on images from user galleries on Civitai.com. All operations are handled through a stylish **Unified Overlay** injected directly into the website page.
+Это расширение Chrome для парсинга и сбора данных об изображениях из галерей пользователей на сайте Civitai.com. Вся работа происходит через стильный **Unified Overlay** (единый оверлей), который внедряется прямо на страницу сайта.
 
-## Features:
+## Возможности:
 
-- **Unified Overlay**: Modern, animated control panel right on the Civitai page. No need for separate popup windows.
-- **Smart Scanner (V9+)**: Advanced algorithm with auto-scroll unlocking, modal bypass, and deep action simulation for maximum image detection (49+ per page).
-- **Live Counter Animation**: Real-time smooth ticking of found image counts using Cubic-Out easing.
-- **Change Tracking**: Automatically detects **new**, **changed** (statistics), and **removed** images compared to previous sessions.
-- **Results Visualization**: Full-featured results page with filters, detailed statistics, and export options.
-- **Excel Export/Import**: Save data to XLSX with separate sheets for Active and Removed items.
-- **Multilingual UI**: Full English and Russian support with animated flag switchers.
+- **Unified Overlay**: Современный, анимированный интерфейс прямо на странице Civitai. Не нужно открывать отдельные окна.
+- **Умный сканер (V9+)**: Продвинутый алгоритм с авто-разблокировкой скролла, обходом модальных окон и глубокой симуляцией действий пользователя для максимального нахождения изображений (49+ на страницу).
+- **Живая анимация счетчика**: Плавное нарастание цифр найденных изображений в реальном времени с использованием Cubic-Out easing.
+- **Отслеживание изменений**: Автоматическое определение **новых**, **измененных** (статистика) и **удаленных** изображений по сравнению с прошлыми сессиями.
+- **Визуализация результатов**: Полнофункциональная страница результатов с фильтрами, детальной статистикой и экспортом.
+- **Экспорт/Импорт Excel**: Сохранение данных в XLSX с разделением по листам (Актуальные/Удаленные).
+- **Мультиязычность**: Полная поддержка русского и английского языков с анимированным переключателем флагов.
 
-## Installation:
+## Установка:
 
-1.  **Download** this extension to a folder on your computer.
-2.  Open Google Chrome and navigate to `chrome://extensions/`.
-3.  Enable **"Developer mode"** in the top right corner.
-4.  Click the **"Load unpacked"** button.
-5.  Select the folder containing the project files (`manifest.json` and others).
-6.  The extension will appear in the list and on the browser toolbar.
+1.  **Скачайте** это расширение в папку на вашем компьютере.
+2.  Откройте Google Chrome и перейдите по адресу `chrome://extensions/`.
+3.  Включите **"Режим разработчика"** (Developer mode) в правом верхнем углу.
+4.  Нажмите кнопку **"Загрузить распакованное расширение"** (Load unpacked).
+5.  Выберите папку, в которой находятся файлы этого проекта (`manifest.json` и остальные).
+6.  Расширение появится в списке и на панели инструментов браузера.
 
-## How to Use:
+## Как использовать:
 
-1.  Navigate to a user's gallery page (e.g., `https://civitai.com/user/beg0n/images`).
-2.  Click the extension icon in the browser toolbar. The **Control Overlay** will appear on the Civitai page.
-3.  Select your preferred language (RU/EN) using the **flag switcher in the top right corner of the overlay** if needed.
-4.  Set the number of scrolling pages and click the **"SCAN"** button. To abort at any time, click the **"STOP"** button — data from the current session will be discarded.
-5.  Monitor the logs in the overlay terminal and watch the live counter. The scanner will also stop **automatically** if 3 consecutive iterations find no new images.
-6.  Once complete, the overlay closes, the page refreshes, and a new tab opens with your results.
+1.  Перейдите на страницу галереи пользователя (например, `https://civitai.com/user/beg0n/images`).
+2.  Нажмите на иконку расширения в панели браузера. На странице Civitai появится **панель управления (оверлей)**.
+3.  Выберите язык (RU/EN) с помощью переключателя флагов в **правом верхнем углу оверлея**, если нужно.
+4.  Задайте количество страниц для скроллинга и нажмите кнопку **"СКАН"**. Для прерывания сканирования в любой момент нажмите кнопку **"СТОП"** — данные текущего сеанса будут сброшены.
+5.  Следите за логами в терминале оверлея и живым счетчиком картинок. Сканер также остановится **автоматически**, если 3 итерации подряд не обнаружат новых изображений.
+6.  По завершении оверлей закроется, страница обновится и откроется новая вкладка с результатами.
 
-## On the Results Page You Can:
+## На странице результатов вы можете:
 
-- Use the filters in the center of the footer: **"All"**, **"New"**, **"Changed"**, **"Removed"**. (The footer appears automatically when you move your cursor to the bottom of the screen).
-- Click the **"Zero Reactions"** icon (crossed-out circle) to filter and show only images with zero total stats.
-- Toggle reaction display mode using the **Smile icon** (detailed emojis or total score).
-- Use icons in the left side of the footer for **Importing** or **Exporting** data to Excel.
-- Click the **"Top"** button (arrow) in the footer block on the right for quick scrolling.
-- Click on any image to open the original on Civitai (the URL preview is hidden for better aesthetics).
-- Cards are sorted by recency (**newest images are shown first**).
-- Use the **"×"** (close tab) button in the footer to close the results page.
+- Использовать фильтры в центре подвала: **"Все"**, **"Новые"**, **"Изменённые"**, **"Удалённые"**. (Подвал появляется автоматически при подведении курсора к нижней границе экрана).
+- Нажать на иконку **"Без реакций"** (перечеркнутый круг), чтобы увидеть только картинки с нулевой статистикой.
+- Переключить вид реакций с помощью **иконки смайлика** (детальные смайлы или общий счет).
+- Нажать на иконки в левом углу подвала для **Импорта** или **Экспорта** данных в Excel.
+- Использовать кнопку **"Наверх"** (стрелка) в блоке подвала справа для быстрой прокрутки.
+- Кликнуть по любой картинке, чтобы открыть её оригинал на Civitai (ссылка скрыта в строке статуса браузера для лучшей эстетики).
+- Картинки отсортированы по новизне (**новейшие изображения показываются первыми**).
+- Использовать кнопку **«×»** (закрыть вкладку) в подвале, чтобы закрыть страницу результатов.
 
-## Notes:
+## Примечания:
 
-- On the first scan of an author's gallery, all images will be marked as "New". On subsequent scans, the comparison logic will work.
-- Civitai frequently updates its interface. If parsing stops working, the CSS selectors may have changed.
-- **Login Status**: It is recommended to be logged into Civitai while scanning. For guests, some content (especially NSFW) may be hidden or restricted by the site.
-- Keep the Civitai user gallery tab active and visible during scanning. Switching tabs or minimizing the browser may cause images to be missed due to lazy loading.
-# CivitaiGaleryParser
+- При первом поиске галереи автора все изображения будут помечены как "New". При последующих поисках будет работать логика сравнения.
+- Civitai часто обновляет свой интерфейс. Если парсинг перестал работать, возможно, изменились селекторы CSS.
+- **Статус авторизации**: Рекомендуется быть авторизованным на Civitai во время сканирования. Для гостей часть контента (особенно NSFW) может быть скрыта или ограничена самим сайтом.
+- Не переключайтесь с вкладки галереи Civitai во время поиска. Переключение вкладок или сворачивание браузера может привести к пропуску изображений из-за ленивой загрузки.
