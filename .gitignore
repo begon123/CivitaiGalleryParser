@@ -1,0 +1,9 @@
+# Non-extension files and folders
+.agents/
+CLAUDE.md
+Code/
+Docs/
+Prompts/
+README.md
+README.ru.md
+Screenshots/
