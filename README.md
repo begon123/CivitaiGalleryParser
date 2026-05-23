@@ -2,6 +2,8 @@
 
 [English](README.md) · [Русский](README.ru.md)
 
+![Extension Interface (Unified Overlay)](Screenshots/OverlayScreen.png)
+
 A Chrome extension for parsing and collecting data on images from user galleries on Civitai.com. All operations are handled through a stylish **Unified Overlay** injected directly into the website page.
 
 ## Features:
