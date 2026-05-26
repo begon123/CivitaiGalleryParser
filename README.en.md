@@ -4,16 +4,18 @@
 
 ![Extension Interface (Unified Overlay)](Screenshots/OverlayScreen.png)
 
-A Chrome extension for parsing and collecting data on images from user galleries on Civitai.com. All operations are handled through a stylish **Unified Overlay** injected directly into the website page.
+A Chrome extension for parsing and collecting data on images from user galleries on Civitai.com and its mirror Civitai.red. All operations are handled through a stylish **Unified Overlay** injected directly into the website page.
 
 ## Features:
 
 - **Unified Overlay**: Modern, animated control panel right on the Civitai page. No need for separate popup windows.
 - **Smart Scanner (v1.5+)**: Advanced algorithm with auto-scroll unlocking, modal bypass, and deep action simulation for maximum image detection (49+ per page).
+- **Civitai.red Mirror Support**: Ability to scan on the `civitai.red` mirror domain just like the main site.
 - **Live Counter Animation**: Real-time smooth ticking of found image counts using Cubic-Out easing.
 - **Change Tracking**: Automatically detects **new**, **changed** (statistics), and **removed** images compared to previous sessions.
 - **Results Visualization**: Full-featured results page with filters, detailed statistics, and export options.
 - **Excel Export/Import**: Save data to XLSX with separate sheets for Active and Removed items.
+- **Excel Filename Suffixes**: Tables are automatically saved with `_red` (for civitai.red) or `_com` (for civitai.com) suffix at the end of the filename.
 - **Multilingual UI**: Full English and Russian support with animated flag switchers.
 
 ## Installation:
@@ -27,7 +29,7 @@ A Chrome extension for parsing and collecting data on images from user galleries
 
 ## How to Use:
 
-1.  Navigate to a user's gallery page (e.g., `https://civitai.com/user/beg0n/images`).
+1.  Navigate to a user's gallery page (e.g., `https://civitai.com/user/beg0n/images` or `https://civitai.red/user/beg0n/images`).
 2.  Click the extension icon in the browser toolbar. The **Control Overlay** will appear on the Civitai page.
 3.  Select your preferred language (RU/EN) using the **flag switcher in the top right corner of the overlay** if needed.
 4.  Set the number of scrolling pages and click the **"SCAN"** button. To abort at any time, click the **"STOP"** button — data from the current session will be discarded.
