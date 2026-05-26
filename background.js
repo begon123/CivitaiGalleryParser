@@ -18,7 +18,7 @@ async function ensureContentScriptLoaded(tabId) {
 }
 
 chrome.action.onClicked.addListener(async (tab) => {
-  if (tab.url && tab.url.includes('civitai.com')) {
+  if (tab.url && (tab.url.includes('civitai.com') || tab.url.includes('civitai.red'))) {
     try {
       await ensureContentScriptLoaded(tab.id);
       chrome.tabs.sendMessage(tab.id, { action: 'toggle_control_overlay' });

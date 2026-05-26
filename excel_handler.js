@@ -65,7 +65,9 @@ const ExcelHandler = {
       XLSX.utils.book_append_sheet(wb, wsRemoved, 'Removed Data')
     }
 
-    const filename = `civitai_gallery_${currentAuthor}_${new Date().toISOString().slice(0, 10)}.xlsx`
+    const isRed = allItems.some(item => item.href && item.href.includes('civitai.red'))
+    const suffix = isRed ? '_red' : '_com'
+    const filename = `civitai_gallery_${currentAuthor}_${new Date().toISOString().slice(0, 10)}${suffix}.xlsx`
     XLSX.writeFile(wb, filename)
     this.showToast(this.I18N.t('results_export_success'))
   },
