@@ -3,4 +3,11 @@
 CLAUDE.md
 Code/
 Docs/
-Prompts/
+
+# Playwright & Testing files
+node_modules/
+playwright_profile/
+Screenshots/
+test_parser.cjs
+test_parser.js
+package-lock.json

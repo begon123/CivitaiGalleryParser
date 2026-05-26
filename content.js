@@ -685,4 +685,13 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   return false;
 });
 
+// Auto-start overlay for testing purposes if URL contains test_scan=true
+if (window.location.search.includes('test_scan=true')) {
+  setTimeout(() => {
+    if (!UI_CONTROLLER.overlay) {
+      UI_CONTROLLER.toggle();
+    }
+  }, 2000);
+}
+
 // --- End of Script ---
