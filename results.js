@@ -288,21 +288,54 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (exportBtn) exportBtn.onclick = () => ExcelHandler.exportToExcel(allItems, currentAuthor)
 
   // --- Comparison Logic ---
+  function getItemKey(item) {
+    if (item.imageId && item.imageId > 0) {
+      return `id_${item.imageId}`;
+    }
+    if (item.href) {
+      try {
+        const cleanHref = item.href.replace(/^https?:\/\/[^/]+/, '').split('?')[0];
+        if (cleanHref) return `href_${cleanHref}`;
+      } catch (e) {}
+    }
+    if (item.src) {
+      try {
+        let cleanSrc = item.src.split('?')[0];
+        // Remove /width=.../ from the path
+        cleanSrc = cleanSrc.replace(/\/width=\d+\/?/i, '/');
+        return `src_${cleanSrc}`;
+      } catch (e) {}
+      return `src_${item.src}`;
+    }
+    return '';
+  }
+
   function compareScans(currentData, previousData) {
     if (!previousData || previousData.length === 0) return currentData.map(item => ({ ...item, status: 'new' }))
-    const prevMap = new Map(previousData.map(item => [item.src, item]))
+    
+    const prevMap = new Map()
+    previousData.forEach(item => {
+      const key = getItemKey(item)
+      if (key) prevMap.set(key, item)
+    })
+
     const combinedData = []
 
     currentData.forEach(currentItem => {
-      const prevItem = prevMap.get(currentItem.src)
+      const key = getItemKey(currentItem)
+      const prevItem = key ? prevMap.get(key) : null
+      
       if (prevItem) {
         const totalNow = (currentItem.stats.likes || 0) + (currentItem.stats.hearts || 0) + (currentItem.stats.laughs || 0) + (currentItem.stats.cries || 0)
         const totalBefore = (prevItem.stats.likes || 0) + (prevItem.stats.hearts || 0) + (prevItem.stats.laughs || 0) + (prevItem.stats.cries || 0)
         if (totalNow !== totalBefore) combinedData.push({ ...currentItem, status: 'changed', totalDelta: totalNow - totalBefore })
         else combinedData.push({ ...currentItem, status: 'unchanged' })
-        prevMap.delete(currentItem.src)
-      } else combinedData.push({ ...currentItem, status: 'new' })
+        prevMap.delete(key)
+      } else {
+        combinedData.push({ ...currentItem, status: 'new' })
+      }
     })
+    
     prevMap.forEach(removedItem => combinedData.push({ ...removedItem, status: 'removed' }))
     return combinedData
   }
