@@ -685,6 +685,14 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   return false;
 });
 
+// Save metadata for testing tools
+try {
+  document.body.setAttribute('data-extension-id', chrome.runtime.id);
+  document.body.setAttribute('data-results-url', chrome.runtime.getURL('results.html'));
+} catch (e) {
+  console.error('Failed to set test metadata:', e);
+}
+
 // Auto-start overlay for testing purposes if URL contains test_scan=true
 if (window.location.search.includes('test_scan=true')) {
   setTimeout(() => {

@@ -7,7 +7,6 @@ Docs/
 # Playwright & Testing files
 node_modules/
 playwright_profile/
+Test/
 Screenshots/
-test_parser.cjs
-test_parser.js
 package-lock.json
