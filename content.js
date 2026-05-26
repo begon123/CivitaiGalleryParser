@@ -423,7 +423,60 @@ const DATA_EXTRACTOR = {
     const stats = { likes: 0, hearts: 0, laughs: 0, cries: 0, total: 0, hasMoodSmile: false, rawNumbers: [] }
     if (!container) return stats
 
-    // Метод 1 (основной): Web Component number-flow-react
+    // 1. Поиск современных кнопок реакций на Civitai
+    // Кнопки содержат текстовый эмодзи и числовой счётчик (скрытый в srOnly / sr-only либо в data-digit)
+    const reactionButtons = container.querySelectorAll('button, div[role="button"], a[role="button"]')
+    let foundAnyReaction = false
+
+    reactionButtons.forEach(btn => {
+      const html = btn.innerHTML || ''
+      const text = btn.textContent || ''
+
+      for (const [emoji, type] of Object.entries(CONFIG.EMOJI_MAP)) {
+        if (html.includes(emoji) || text.includes(emoji)) {
+          foundAnyReaction = true
+          let val = 0
+
+          // А. Проверяем наличие элемента для экранных дикторов (srOnly/sr-only), который содержит точное число без анимационного стека
+          const srOnlyEl = btn.querySelector('[class*="srOnly"], [class*="sr-only"]')
+          if (srOnlyEl) {
+            val = parseInt(srOnlyEl.textContent) || 0
+          }
+
+          // Б. Если srOnly нет, пробуем склеить цифры из data-digit по их data-position
+          if (val === 0) {
+            const digits = Array.from(btn.querySelectorAll('[data-digit]'))
+              .sort((a, b) => (parseInt(a.getAttribute('data-position')) || 0) - (parseInt(b.getAttribute('data-position')) || 0))
+            if (digits.length > 0) {
+              val = parseInt(digits.map(d => d.getAttribute('data-digit')).join('')) || 0
+            }
+          }
+
+          // В. Резервный вариант (обычный парсинг чисел, но он может захватить лишнее из-за стека анимации)
+          if (val === 0) {
+            const numMatch = text.match(/\d+/)
+            if (numMatch) val = parseInt(numMatch[0]) || 0
+          }
+
+          stats[type] = Math.max(stats[type], val)
+          if (val > 0 && !stats.rawNumbers.includes(val)) stats.rawNumbers.push(val)
+        }
+      }
+    })
+
+    // Проверяем смайлик
+    const containerHTML = container.innerHTML || ''
+    const containerText = container.textContent || ''
+    if (SELECTOR_CONFIG.icons.moodSmile.some(sig => containerHTML.includes(sig)) || containerHTML.includes('mood-smile') || containerText.includes('🙂')) {
+      stats.hasMoodSmile = true
+    }
+
+    if (foundAnyReaction) {
+      stats.total = stats.likes + stats.hearts + stats.laughs + stats.cries
+      return stats
+    }
+
+    // --- Резервный Метод 2 ( fallback для старой верстки с number-flow-react ) ---
     const numberFlows = container.querySelectorAll('number-flow-react')
     if (numberFlows.length >= 4) {
       const reactionTypes = ['likes', 'hearts', 'laughs', 'cries']
@@ -433,21 +486,13 @@ const DATA_EXTRACTOR = {
           const val = typeof data.value === 'number' ? data.value : parseInt(data.value) || 0
           stats[reactionTypes[i]] = val
           if (val > 0 && !stats.rawNumbers.includes(val)) stats.rawNumbers.push(val)
-        } catch (e) { /* JSON parse error — пропускаем */ }
-      }
-      // Проверяем наличие mood-smile
-      const html = container.innerHTML || ''
-      if (SELECTOR_CONFIG.icons.moodSmile.some(sig => html.includes(sig))) {
-        stats.hasMoodSmile = true
+        } catch (e) {}
       }
       stats.total = stats.likes + stats.hearts + stats.laughs + stats.cries
       return stats
     }
 
-    // Метод 2 (fallback): Эмодзи в HTML
-    const containerText = container.textContent || ''
-    const containerHTML = container.innerHTML || ''
-
+    // --- Резервный Метод 3 ( fallback: поиск эмодзи напрямую в HTML ) ---
     for (const [emoji, type] of Object.entries(CONFIG.EMOJI_MAP)) {
       if (containerText.includes(emoji) || containerHTML.includes(emoji)) {
         const parts = containerHTML.split(emoji)
@@ -458,7 +503,7 @@ const DATA_EXTRACTOR = {
       }
     }
 
-    // Метод 3 (fallback): SVG-сигнатуры
+    // --- Резервный Метод 4 ( fallback: SVG-сигнатуры ) ---
     container.querySelectorAll('svg').forEach(svg => {
       const svgSignature = (svg.getAttribute('class') || '') + ' ' + svg.innerHTML
       let iconType = null
@@ -560,6 +605,7 @@ const DATA_EXTRACTOR = {
       STATE.collectedData.push({ src, href, alt: '', stats, imageId })
       found++
     }
+    window.CP_DATA_DUMP = STATE.collectedData;
     return found
   }
 };

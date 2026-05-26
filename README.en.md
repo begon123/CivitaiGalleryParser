@@ -9,7 +9,7 @@ A Chrome extension for parsing and collecting data on images from user galleries
 ## Features:
 
 - **Unified Overlay**: Modern, animated control panel right on the Civitai page. No need for separate popup windows.
-- **Smart Scanner (V9+)**: Advanced algorithm with auto-scroll unlocking, modal bypass, and deep action simulation for maximum image detection (49+ per page).
+- **Smart Scanner (v1.5+)**: Advanced algorithm with auto-scroll unlocking, modal bypass, and deep action simulation for maximum image detection (49+ per page).
 - **Live Counter Animation**: Real-time smooth ticking of found image counts using Cubic-Out easing.
 - **Change Tracking**: Automatically detects **new**, **changed** (statistics), and **removed** images compared to previous sessions.
 - **Results Visualization**: Full-featured results page with filters, detailed statistics, and export options.
@@ -36,14 +36,14 @@ A Chrome extension for parsing and collecting data on images from user galleries
 
 ## On the Results Page You Can:
 
-- Use the filters in the center of the footer: **"All"**, **"New"**, **"Changed"**, **"Removed"**. (The footer appears automatically when you move your cursor to the bottom of the screen).
+- Use the filters in the center of the footer: **"All"**, **"New"**, **"Changed"**, **"Removed"** (the footer is locked and always visible at the bottom of the screen).
 - Click the **"Zero Reactions"** icon (crossed-out circle) to filter and show only images with zero total stats.
 - Toggle reaction display mode using the **Smile icon** (detailed emojis or total score).
 - Use icons in the left side of the footer for **Importing** or **Exporting** data to Excel.
 - Click the **"Top"** button (arrow) in the footer block on the right for quick scrolling.
 - Click on any image to open the original on Civitai (the URL preview is hidden for better aesthetics).
 - Cards are sorted by recency (**newest images are shown first**).
-- Use the **"×"** (close tab) button in the footer to close the results page.
+- Use the **"×"** (close tab) button in the top right corner of the header to close the results page.
 
 ## Notes:
 
@@ -51,4 +51,3 @@ A Chrome extension for parsing and collecting data on images from user galleries
 - Civitai frequently updates its interface. If parsing stops working, the CSS selectors may have changed.
 - **Login Status**: It is recommended to be logged into Civitai while scanning. For guests, some content (especially NSFW) may be hidden or restricted by the site.
 - Keep the Civitai user gallery tab active and visible during scanning. Switching tabs or minimizing the browser may cause images to be missed due to lazy loading.
-# CivitaiGaleryParser

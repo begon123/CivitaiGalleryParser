@@ -1,4 +1,78 @@
 document.addEventListener('DOMContentLoaded', async () => {
+  // Mock chrome API for local web server testing (to allow Kimi testing on localhost)
+  if (typeof chrome === 'undefined' || !chrome.storage || !chrome.storage.local) {
+    window.chrome = window.chrome || {};
+    window.chrome.storage = {
+      local: {
+        get: async (keys) => {
+          const author = 'beg0n';
+          const mockData = [
+            {
+              src: 'https://image.civitai.com/xG1nk/1.png',
+              href: 'https://civitai.com/images/122465192',
+              imageId: 122465192,
+              status: 'new',
+              stats: { likes: 5, hearts: 2, laughs: 0, cries: 1 }
+            },
+            {
+              src: 'https://image.civitai.com/xG1nk/2.png',
+              href: 'https://civitai.com/images/122465193',
+              imageId: 122465193,
+              status: 'changed',
+              totalDelta: 3,
+              stats: { likes: 10, hearts: 5, laughs: 2, cries: 0 }
+            },
+            {
+              src: 'https://image.civitai.com/xG1nk/3.png',
+              href: 'https://civitai.com/images/122465194',
+              imageId: 122465194,
+              status: 'removed',
+              stats: { likes: 0, hearts: 0, laughs: 0, cries: 0 }
+            },
+            {
+              src: 'https://image.civitai.com/xG1nk/4.png',
+              href: 'https://civitai.com/images/122465195',
+              imageId: 122465195,
+              status: 'unchanged',
+              stats: { likes: 0, hearts: 0, laughs: 0, cries: 0 }
+            }
+          ];
+          const mockPrevData = [
+            {
+              src: 'https://image.civitai.com/xG1nk/2.png',
+              href: 'https://civitai.com/images/122465193',
+              imageId: 122465193,
+              status: 'unchanged',
+              stats: { likes: 8, hearts: 4, laughs: 2, cries: 0 }
+            },
+            {
+              src: 'https://image.civitai.com/xG1nk/3.png',
+              href: 'https://civitai.com/images/122465194',
+              imageId: 122465194,
+              status: 'unchanged',
+              stats: { likes: 0, hearts: 0, laughs: 0, cries: 0 }
+            }
+          ];
+          if (typeof keys === 'string') {
+            if (keys === 'civitai_gallery_author') return { civitai_gallery_author: author };
+            if (keys === `civitai_gallery_data_${author}`) return { [`civitai_gallery_data_${author}`]: mockData };
+            if (keys === `civitai_gallery_data_${author}_previous`) return { [`civitai_gallery_data_${author}_previous`]: mockPrevData };
+          } else if (Array.isArray(keys)) {
+            const res = {};
+            if (keys.includes('civitai_gallery_author')) res.civitai_gallery_author = author;
+            if (keys.includes(`civitai_gallery_data_${author}`)) res[`civitai_gallery_data_${author}`] = mockData;
+            if (keys.includes(`civitai_gallery_data_${author}_previous`)) res[`civitai_gallery_data_${author}_previous`] = mockPrevData;
+            return res;
+          }
+          return {};
+        }
+      }
+    };
+    window.chrome.runtime = {
+      getURL: (path) => path
+    };
+  }
+
   // --- Globals ---
   let allItems = []
   let currentAuthor = 'default'
@@ -274,19 +348,5 @@ document.addEventListener('DOMContentLoaded', async () => {
   closeBtn.onclick = () => window.close()
   scrollTopBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
-  // --- Windows-like Footer Popup Logic ---
-  const footerElement = document.querySelector('footer')
-  if (footerElement) {
-    document.addEventListener('mousemove', (e) => {
-      // Trigger when mouse is within 20px of the bottom
-      const threshold = 20
-      if (window.innerHeight - e.clientY <= threshold) {
-        footerElement.classList.add('visible')
-      } else if (window.innerHeight - e.clientY > 100) {
-        // Only hide if mouse moves away significantly to prevent flickering 
-        // and allow user to interact with the footer once it's up
-        footerElement.classList.remove('visible')
-      }
-    })
-  }
+  // Footer is configured to be always visible on screen.
 })

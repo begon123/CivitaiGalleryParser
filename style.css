@@ -685,9 +685,8 @@ footer {
     z-index: 1000;
     box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
 
-    /* Animation properties */
-    transform: translateY(100%);
-    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    /* Always visible on screen */
+    transform: translateY(0);
     will-change: transform;
 }
 
@@ -700,11 +699,6 @@ footer::before {
     height: 2px;
     background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
     opacity: 0.3;
-}
-
-footer:hover,
-footer.visible {
-    transform: translateY(0);
 }
 
 .footer-left {
