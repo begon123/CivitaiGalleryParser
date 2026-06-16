@@ -360,8 +360,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   ExcelHandler.init({
     toastFn: showToast,
     i18n: I18N,
-    onImportSuccess: (data) => {
-      allItems = data.items
+    onImportSuccess: async (data) => {
+      const currentKey = `civitai_gallery_data_${data.author}`
+      const storageResult = await chrome.storage.local.get(currentKey)
+      const existingData = storageResult[currentKey] || []
+
+      if (existingData && existingData.length > 0) {
+        const activeImportedItems = data.items.filter(item => item.status !== 'removed')
+        allItems = compareScans(activeImportedItems, existingData)
+      } else {
+        allItems = data.items
+      }
+
       currentAuthor = data.author
       authorSpan.textContent = currentAuthor.charAt(0).toUpperCase() + currentAuthor.slice(1)
       applyFilters()
