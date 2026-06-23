@@ -1,11 +1,4 @@
 {
   "type": "module",
-  "version": "1.5.8",
-  "devDependencies": {
-    "playwright": "^1.58.2",
-    "@playwright/test": "^1.59.1"
-  },
-  "scripts": {
-    "test-extension": "playwright test --config Test/playwright.config.js"
-  }
+  "version": "1.5.8"
 }
