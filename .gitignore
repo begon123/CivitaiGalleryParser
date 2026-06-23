@@ -7,7 +7,7 @@ Docs/
 # Playwright & Testing files
 node_modules/
 playwright_profile/
-Test/
+Tests/
 Screenshots/
 package-lock.json
 LOCAL_RULES.md
