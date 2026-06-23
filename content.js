@@ -647,8 +647,12 @@ const DATA_EXTRACTOR = {
       const KNOWN_ZERO_IDS = new Set([123233343, 120856214]);
       const totalReactions = (stats.likes || 0) + (stats.hearts || 0) + (stats.laughs || 0) + (stats.cries || 0);
       if (totalReactions === 0 && !stats.hasMoodSmile && imageId > 0 && !KNOWN_ZERO_IDS.has(imageId)) {
-        // Skip setting data-parsed so it can be retried on next scroll step
-        continue;
+        // Skip setting data-parsed so it can be retried on next scroll steps (up to 3 times)
+        const retryCount = parseInt(img.getAttribute('data-scan-retries') || '0', 10);
+        if (retryCount < 3) {
+          img.setAttribute('data-scan-retries', (retryCount + 1).toString());
+          continue;
+        }
       }
 
       img.setAttribute('data-parsed', 'true')

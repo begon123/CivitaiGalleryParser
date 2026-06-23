@@ -11,3 +11,4 @@ Test/
 Screenshots/
 package-lock.json
 LOCAL_RULES.md
+test-results/
