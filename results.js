@@ -365,11 +365,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       const storageResult = await chrome.storage.local.get(currentKey)
       const existingData = storageResult[currentKey] || []
 
-      if (existingData && existingData.length > 0) {
-        const activeImportedItems = data.items.filter(item => item.status !== 'removed')
-        allItems = compareScans(activeImportedItems, existingData)
+      const previousData = (currentAuthor === data.author && allItems.length > 0) ? allItems : existingData
+
+      if (previousData && previousData.length > 0) {
+        const activePrevious = previousData.filter(item => item.status !== 'removed')
+        allItems = compareScans(data.items, activePrevious)
       } else {
-        allItems = data.items
+        allItems = data.items.map(item => ({ ...item, status: 'new' }))
       }
 
       currentAuthor = data.author

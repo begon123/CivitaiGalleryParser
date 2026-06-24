@@ -31,9 +31,10 @@ const ExcelHandler = {
     }
 
     const galleryData = []
-    const removedData = []
 
     allItems.forEach(item => {
+      if (item.status === 'removed') return
+
       const stats = item.stats || {}
       const row = {
         Image_ID: item.imageId || 0,
@@ -46,30 +47,52 @@ const ExcelHandler = {
         Total_Reactions: stats.total || 0
       }
 
-      if (item.status === 'removed') {
-        removedData.push(row)
-      } else {
-        let status = 0 // Unchanged
-        if (item.status === 'new') status = 1
-        if (item.status === 'changed') status = 2
-        galleryData.push({ Status: status, ...row })
-      }
+      let status = 0 // Unchanged
+      if (item.status === 'new') status = 1
+      if (item.status === 'changed') status = 2
+      galleryData.push({ Status: status, ...row })
     })
 
     const wb = XLSX.utils.book_new()
     const wsGallery = XLSX.utils.json_to_sheet(galleryData)
     XLSX.utils.book_append_sheet(wb, wsGallery, 'Gallery Data')
 
-    if (removedData.length > 0) {
-      const wsRemoved = XLSX.utils.json_to_sheet(removedData)
-      XLSX.utils.book_append_sheet(wb, wsRemoved, 'Removed Data')
-    }
-
     const isRed = allItems.some(item => item.href && item.href.includes('civitai.red'))
     const suffix = isRed ? '_red' : '_com'
     const filename = `civitai_gallery_${currentAuthor}_${new Date().toISOString().slice(0, 10)}${suffix}.xlsx`
-    XLSX.writeFile(wb, filename)
-    this.showToast(this.I18N.t('results_export_success'))
+    if (typeof chrome !== 'undefined' && chrome.downloads && typeof chrome.downloads.download === 'function') {
+      const out = XLSX.write(wb, { bookType: 'xlsx', type: 'array' })
+      const blob = new Blob([out], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+      const url = URL.createObjectURL(blob)
+
+      chrome.downloads.download({
+        url: url,
+        filename: filename,
+        saveAs: true
+      }, (downloadId) => {
+        if (chrome.runtime.lastError || !downloadId) {
+          URL.revokeObjectURL(url)
+          return
+        }
+
+        const listener = (delta) => {
+          if (delta.id === downloadId) {
+            if (delta.state && delta.state.current === 'complete') {
+              chrome.downloads.onChanged.removeListener(listener)
+              this.showToast(this.I18N.t('results_export_success'))
+              URL.revokeObjectURL(url)
+            } else if (delta.state && delta.state.current === 'interrupted') {
+              chrome.downloads.onChanged.removeListener(listener)
+              URL.revokeObjectURL(url)
+            }
+          }
+        }
+        chrome.downloads.onChanged.addListener(listener)
+      })
+    } else {
+      XLSX.writeFile(wb, filename)
+      this.showToast(this.I18N.t('results_export_success'))
+    }
   },
 
   importFromExcel(file) {
@@ -117,32 +140,7 @@ const ExcelHandler = {
           })
         }
 
-        const removedSheetName = workbook.SheetNames.find(n => n.toLowerCase().includes('removed'))
-        if (removedSheetName) {
-          const removedSheet = workbook.Sheets[removedSheetName]
-          const removedRows = XLSX.utils.sheet_to_json(removedSheet)
 
-          removedRows.forEach(row => {
-            importedItems.push({
-              src: row.Image_URL || row['Image URL'] || '',
-              href: row.Post_URL || row['Post URL'] || '',
-              alt: row.Alt || this.I18N.t('alt_imported'),
-              imageId: parseInt(row.Image_ID || row['Image ID']) || 0,
-              status: 'removed',
-              stats: {
-                likes: parseInt(row.Likes) || 0,
-                hearts: parseInt(row.Hearts) || 0,
-                laughs: parseInt(row.Laughs) || 0,
-                cries: parseInt(row.Cries) || 0,
-                total: parseInt(row.Total_Reactions || row['Total Reactions']) || 0,
-                collected: parseInt(row.Collected) || 0,
-                comments: 0,
-                downloads: 0,
-                tipping: 0
-              }
-            })
-          })
-        }
 
         if (importedItems.length === 0) {
           this.showToast(this.I18N.t('results_import_no_data'))
