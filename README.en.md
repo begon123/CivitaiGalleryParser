@@ -12,9 +12,9 @@ A Chrome extension for parsing and collecting data on images from user galleries
 - **Smart Scanner (v1.5+)**: Advanced algorithm with auto-scroll unlocking, modal bypass, and deep action simulation for maximum image detection (49+ per page).
 - **Civitai.red Mirror Support**: Ability to scan on the `civitai.red` mirror domain just like the main site.
 - **Live Counter Animation**: Real-time smooth ticking of found image counts using Cubic-Out easing.
-- **Change Tracking**: Automatically detects **new**, **changed** (statistics), and **removed** images compared to previous sessions.
+- **Change Tracking**: Automatically detects **new**, **changed** (both reaction count increases and decreases marked with clear color indicators), and **removed** images compared to previous sessions.
 - **Results Visualization**: Full-featured results page with filters, detailed statistics, and export options.
-- **Excel Export/Import**: Save data to XLSX with separate sheets for Active and Removed items.
+- **Excel Export/Import**: Save data to a clean XLSX file containing a single "Gallery Data" sheet. The list of removed items is calculated dynamically on the fly during import, eliminating redundant sheets.
 - **Excel Filename Suffixes**: Tables are automatically saved with `_red` (for civitai.red) or `_com` (for civitai.com) suffix at the end of the filename.
 - **Multilingual UI**: Full English and Russian support with animated flag switchers.
 
