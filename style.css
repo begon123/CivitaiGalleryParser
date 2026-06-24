@@ -629,6 +629,10 @@ footer .filter-btn {
     letter-spacing: 0.02em;
 }
 
+.total-score .score-label.is-delta.is-negative {
+    color: #f87171;
+}
+
 /* --- Status Badges --- */
 .card-status-badge {
     position: absolute;
