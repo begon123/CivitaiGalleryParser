@@ -81,6 +81,9 @@ const I18N = {
       results_import_error: 'Error reading Excel file: {error}',
       results_excel_lib_error: 'Excel library failed to load. Export/Import is disabled.',
       results_downloaded: 'Downloaded!',
+      results_prompt_copied: 'Prompt copied!',
+      results_copy_prompt_title: 'Copy Prompt',
+      results_prompt_title: 'Generation Prompt',
 
       // Statuses
       status_new: 'new',
@@ -175,6 +178,9 @@ const I18N = {
       results_import_error: 'Ошибка чтения Excel файла: {error}',
       results_excel_lib_error: 'Ошибка загрузки библиотеки Excel. Экспорт/Импорт отключены.',
       results_downloaded: 'Скачано!',
+      results_prompt_copied: 'Промпт скопирован!',
+      results_copy_prompt_title: 'Копировать промпт',
+      results_prompt_title: 'Описание генерации',
 
       // Statuses
       status_new: 'новый',

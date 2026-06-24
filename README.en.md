@@ -14,7 +14,8 @@ A Chrome extension for parsing and collecting data on images from user galleries
 - **Live Counter Animation**: Real-time smooth ticking of found image counts using Cubic-Out easing.
 - **Change Tracking**: Automatically detects **new**, **changed** (both reaction count increases and decreases marked with clear color indicators), and **removed** images compared to previous sessions.
 - **Results Visualization**: Full-featured results page with filters, detailed statistics, and export options.
-- **Excel Export/Import**: Save data to a clean XLSX file containing a single "Gallery Data" sheet. The list of removed items is calculated dynamically on the fly during import, eliminating redundant sheets.
+- **Generation Prompt Extraction (v1.6+)**: Automatic collection of image descriptions (prompts) directly from Civitai pages in the background.
+- **Excel Export/Import**: Save data to a clean XLSX file containing a single "Gallery Data" sheet. The list of removed items is calculated dynamically on the fly during import, and the "Prompt" column is automatically saved in the spreadsheet.
 - **Excel Filename Suffixes**: Tables are automatically saved with `_red` (for civitai.red) or `_com` (for civitai.com) suffix at the end of the filename.
 - **Multilingual UI**: Full English and Russian support with animated flag switchers.
 
@@ -39,9 +40,10 @@ A Chrome extension for parsing and collecting data on images from user galleries
 ## On the Results Page You Can:
 
 - Use the filters in the center of the footer: **"All"**, **"New"**, **"Changed"**, **"Removed"** (the footer is locked and always visible at the bottom of the screen).
+- Click the info button **"i"** in the top-left corner of the image card to open a modal overlay with the detailed generation parameters (prompt) and copy it via the copy icon in the top-right corner of the modal (dismiss by clicking outside the modal).
 - Click the **"Zero Reactions"** icon (crossed-out circle) to filter and show only images with zero total stats.
 - Toggle reaction display mode using the **Smile icon** (detailed emojis or total score).
-- Use icons in the left side of the footer for **Importing** or **Exporting** data to Excel.
+- Use icons in the left side of the footer for **Importing** or **Exporting** data to Excel (the "Prompt" column is saved automatically).
 - Click the **"Top"** button (arrow) in the footer block on the right for quick scrolling.
 - Click on any image to open the original on Civitai (the URL preview is hidden for better aesthetics).
 - Cards are sorted by recency (**newest images are shown first**).

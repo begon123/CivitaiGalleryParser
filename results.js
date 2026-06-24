@@ -233,8 +233,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>`
 
       }
+      
+      // Info Button (opens prompt overlay modal)
+      let infoBtn = ''
+      if (item.prompt) {
+        infoBtn = `<button class="card-info-btn" data-prompt="${encodeURIComponent(item.prompt)}" title="${I18N.t('results_prompt_title') || 'Generation Prompt'}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-info-circle"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 9h.01"></path><path d="M11 12h1v4h1"></path></svg>
+        </button>`
+      }
+
       card.innerHTML = `
         ${statusBadge}
+        ${infoBtn}
         <div data-href="${item.href}" class="card-link">
             <img src="${item.src}" class="card-image" alt="${I18N.t('alt_civitai_image')}" loading="lazy" />
         </div>
@@ -383,8 +393,54 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   loadData()
 
-  // --- Link opening logic (without showing URL in status bar) ---
+  // --- Prompt Modal Controls ---
+  const promptModal = document.getElementById('promptModal')
+  const promptModalText = document.getElementById('promptModalText')
+  const copyPromptModalBtn = document.getElementById('copyPromptModalBtn')
+  let activeModalPrompt = ''
+
+  function openPromptModal(prompt) {
+    activeModalPrompt = prompt
+    promptModalText.textContent = prompt
+    promptModal.classList.add('show')
+  }
+
+  function closePromptModal() {
+    promptModal.classList.remove('show')
+    activeModalPrompt = ''
+  }
+
+  if (promptModal) {
+    promptModal.onclick = (e) => {
+      if (e.target === promptModal) {
+        closePromptModal()
+      }
+    }
+  }
+
+  if (copyPromptModalBtn) {
+    copyPromptModalBtn.onclick = () => {
+      if (activeModalPrompt) {
+        navigator.clipboard.writeText(activeModalPrompt).then(() => {
+          showToast(I18N.t('results_prompt_copied') || 'Prompt copied!')
+        }).catch(err => {
+          console.error('Failed to copy: ', err)
+        })
+      }
+    }
+  }
+
+  // --- Link opening and info dialog logic ---
   gallery.addEventListener('click', (e) => {
+    const infoBtn = e.target.closest('.card-info-btn')
+    if (infoBtn) {
+      e.preventDefault()
+      e.stopPropagation()
+      const promptText = decodeURIComponent(infoBtn.dataset.prompt)
+      openPromptModal(promptText)
+      return
+    }
+
     const cardLink = e.target.closest('.card-link')
     if (cardLink && cardLink.dataset.href) {
       window.open(cardLink.dataset.href, '_blank')

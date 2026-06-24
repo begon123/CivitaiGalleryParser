@@ -44,7 +44,8 @@ const ExcelHandler = {
         Hearts: stats.hearts || 0,
         Laughs: stats.laughs || 0,
         Cries: stats.cries || 0,
-        Total_Reactions: stats.total || 0
+        Total_Reactions: stats.total || 0,
+        Prompt: item.prompt || ''
       }
 
       let status = 0 // Unchanged
@@ -125,6 +126,7 @@ const ExcelHandler = {
               alt: row.Alt || this.I18N.t('alt_imported'),
               imageId: parseInt(row.Image_ID || row['Image ID']) || 0,
               status: status,
+              prompt: row.Prompt || row.prompt || '',
               stats: {
                 likes: parseInt(row.Likes) || 0,
                 hearts: parseInt(row.Hearts) || 0,
@@ -177,6 +179,7 @@ const ExcelHandler = {
           href: item.href,
           alt: item.alt,
           imageId: item.imageId || 0,
+          prompt: item.prompt || '',
           stats: item.stats
         }))
 

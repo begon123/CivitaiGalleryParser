@@ -142,6 +142,17 @@
         </div>
     </footer>
 
+    <!-- Prompt Overlay Modal -->
+    <div id="promptModal" class="prompt-modal">
+        <div class="prompt-modal-content">
+            <button class="action-btn" id="copyPromptModalBtn" data-i18n-title="results_copy_prompt_title" title="Copy Prompt">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-copy"><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z"></path><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1"></path></svg>
+            </button>
+            <h3 data-i18n="results_prompt_title">Generation Prompt</h3>
+            <div class="prompt-text-container" id="promptModalText"></div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="lib/xlsx.full.min.js"></script>
     <script src="i18n.js"></script>

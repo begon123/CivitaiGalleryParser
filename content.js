@@ -575,6 +575,28 @@ const DATA_EXTRACTOR = {
     return img.closest(SELECTOR_CONFIG.cardContainer) || img.parentElement
   },
 
+  async fetchPrompt(imageId) {
+    if (!imageId) return null;
+    try {
+      const res = await fetch(`/images/${imageId}`);
+      if (!res.ok) return null;
+      const html = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const scriptEl = doc.getElementById('__NEXT_DATA__');
+      if (!scriptEl) return null;
+      const jsonData = JSON.parse(scriptEl.textContent);
+      const queries = jsonData.props?.pageProps?.trpcState?.json?.queries || [];
+      const metaQuery = queries.find(q => q.state?.data && q.state.data.meta);
+      if (metaQuery && metaQuery.state.data.meta) {
+        return metaQuery.state.data.meta.prompt || null;
+      }
+    } catch (e) {
+      console.error('Error fetching prompt for image ' + imageId, e);
+    }
+    return null;
+  },
+
   async scan() {
     const images = Array.from(document.querySelectorAll(`${SELECTOR_CONFIG.galleryImage}:not([data-parsed])`))
     let found = 0
@@ -655,9 +677,14 @@ const DATA_EXTRACTOR = {
         }
       }
 
+      let prompt = null
+      if (imageId > 0) {
+        prompt = await this.fetchPrompt(imageId)
+      }
+
       img.setAttribute('data-parsed', 'true')
       STATE.seenSrcSet.add(src)
-      STATE.collectedData.push({ src, href, alt: '', stats, imageId })
+      STATE.collectedData.push({ src, href, alt: '', stats, imageId, prompt })
       found++
     }
     window.CP_DATA_DUMP = STATE.collectedData;
