@@ -116,7 +116,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     let filtered = allItems
 
     if (currentFilter !== 'all') {
-      filtered = filtered.filter(item => item.status === currentFilter)
+      if (currentFilter === 'changed_minus') {
+        filtered = filtered.filter(item => item.status === 'changed' && item.totalDelta < 0)
+      } else if (currentFilter === 'changed_plus') {
+        filtered = filtered.filter(item => item.status === 'changed' && item.totalDelta > 0)
+      } else {
+        filtered = filtered.filter(item => item.status === currentFilter)
+      }
     }
 
     if (onlyZeroActive) {

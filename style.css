@@ -359,6 +359,50 @@ footer .filter-btn {
     animation: spin-slow 3s linear infinite;
 }
 
+/* Changed minus filter - Slightly dimmer Blue */
+.filter-btn[data-filter="changed_minus"]:hover svg,
+.filter-btn[data-filter="changed_minus"].active svg {
+    color: #60a5fa;
+    filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.35));
+    opacity: 0.75;
+}
+
+.filter-btn[data-filter="changed_minus"]:hover,
+.filter-btn[data-filter="changed_minus"].active {
+    border-color: rgba(96, 165, 250, 0.3);
+    background: rgba(96, 165, 250, 0.05);
+}
+
+.filter-btn[data-filter="changed_minus"]:hover svg {
+    animation: spin-slow 3s linear infinite;
+}
+
+.filter-btn[data-filter="changed_minus"] svg {
+    opacity: 0.7;
+}
+
+/* Changed plus filter - Slightly brighter Blue */
+.filter-btn[data-filter="changed_plus"]:hover svg,
+.filter-btn[data-filter="changed_plus"].active svg {
+    color: #3b82f6;
+    filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.8));
+    opacity: 1;
+}
+
+.filter-btn[data-filter="changed_plus"]:hover,
+.filter-btn[data-filter="changed_plus"].active {
+    border-color: rgba(59, 130, 246, 0.5);
+    background: rgba(59, 130, 246, 0.12);
+}
+
+.filter-btn[data-filter="changed_plus"]:hover svg {
+    animation: spin-slow 3s linear infinite;
+}
+
+.filter-btn[data-filter="changed_plus"] svg {
+    opacity: 1.0;
+}
+
 /* Removed filter - Red */
 .filter-btn[data-filter="removed"]:hover svg,
 .filter-btn[data-filter="removed"].active svg {
@@ -869,6 +913,18 @@ footer::before {
 }
 
 .filter-btn[data-filter='changed'] svg {
+    position: relative;
+    top: 0px;
+    left: 1px;
+}
+
+.filter-btn[data-filter='changed_minus'] svg {
+    position: relative;
+    top: 0px;
+    left: 1px;
+}
+
+.filter-btn[data-filter='changed_plus'] svg {
     position: relative;
     top: 0px;
     left: 1px;

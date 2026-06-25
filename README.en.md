@@ -39,7 +39,7 @@ A Chrome extension for parsing and collecting data on images from user galleries
 
 ## On the Results Page You Can:
 
-- Use the filters in the center of the footer: **"All"**, **"New"**, **"Changed"**, **"Removed"** (the footer is locked and always visible at the bottom of the screen).
+- Use the filters in the center of the footer: **"All"**, **"New"**, **"Changed (minus)"** (to view images with decreased reactions), **"Changed"** (main changes list), **"Changed (plus)"** (to view images with increased reactions), **"Removed"** (the footer is locked and always visible at the bottom of the screen).
 - Click the info button **"i"** in the top-left corner of the image card to open a modal overlay with the detailed generation parameters (prompt) and copy it via the copy icon in the top-right corner of the modal (dismiss by clicking outside the modal).
 - Click the **"Zero Reactions"** icon (crossed-out circle) to filter and show only images with zero total stats.
 - Toggle reaction display mode using the **Smile icon** (detailed emojis or total score).
